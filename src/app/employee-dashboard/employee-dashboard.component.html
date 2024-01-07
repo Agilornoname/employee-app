@@ -1,0 +1,111 @@
+<app-navbar></app-navbar>
+
+<div class="container p-2 mx-auto sm:p-4 dark:text-gray-100">
+  <h2 class="mb-4 text-2xl font-semibold leadi text-black">Employees</h2>
+  <div class="overflow-x-auto">
+    <!-- employee-list.component.html -->
+    <!-- Filter Input -->
+    <div class="mt-4">
+      <label for="filter" class="block text-sm font-medium text-gray-600 dark:text-gray-400">
+        Filter by Name:
+      </label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <input
+          type="text"
+          id="filter"
+          [(ngModel)]="nameFilter"
+          (input)="filterEmployees()"
+          class="py-2 px-4 block w-full leading-5 rounded-md border border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 text-black"
+          placeholder="Enter name..."
+        />
+      </div>
+    </div>
+<br>
+    <table class="min-w-full text-xs">
+      <thead class="dark:bg-gray-700">
+      <tr class="text-left">
+        <th class="p-3">Username</th>
+        <th class="p-3">First Name</th>
+        <th class="p-3">Last Name</th>
+        <th class="p-3">Email</th>
+        <th class="p-3">Birth Date</th>
+        <th class="p-3 text-right">Basic Salary</th>
+        <th class="p-3">Status</th>
+        <th class="p-3">Group</th>
+        <th class="p-3">Description</th>
+        <th class="p-3 text-right">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let employee of filteredEmployees" class="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
+        <td class="p-3">
+          <p>{{ employee.username }}</p>
+        </td>
+        <td class="p-3">
+          <p>{{ employee.firstName }}</p>
+        </td>
+        <td class="p-3">
+          <p>{{ employee.lastName }}</p>
+        </td>
+        <td class="p-3">
+          <p>{{ employee.email }}</p>
+        </td>
+        <td class="p-3">
+          <p>{{ employee.birthDate | date }}</p>
+        </td>
+        <td class="p-3 text-right">
+          <p>{{ employee.basicSalary | currency }}</p>
+        </td>
+        <td class="p-3">
+          <p>{{ employee.status }}</p>
+        </td>
+        <td class="p-3">
+          <p>{{ employee.group }}</p>
+        </td>
+        <td class="p-3">
+          <p>{{ employee.description }}</p>
+        </td>
+        <td class="p-3 text-right">
+          <a [routerLink]="['/employee', employee.username]" class="text-blue-500 hover:underline">
+          <span class="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
+            <span>Edit</span>
+          </span>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <!-- Pagination -->
+    <div class="flex justify-end mt-4">
+      <div class="flex items-center">
+        <button
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)"
+          class="px-3 py-1 mr-2 font-semibold rounded-md bg-gray-300 dark:bg-gray-700"
+        >
+          Previous
+        </button>
+
+        <ng-container *ngIf="totalPages > 0">
+          <button
+            *ngFor="let page of getVisiblePages()"
+            (click)="onPageChange(page)"
+            [class.current-page]="currentPage === page"
+            class="pagination-button"
+          >
+            {{ page }}
+          </button>
+        </ng-container>
+
+        <button
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)"
+          class="px-3 py-1 ml-2 font-semibold rounded-md bg-gray-300 dark:bg-gray-700"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
