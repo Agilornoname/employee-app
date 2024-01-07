@@ -1,0 +1,150 @@
+<!--<app-navbar></app-navbar>-->
+<form class="max-w-md mx-auto p-8 pt-6 pb-6 mb-8 bg-white rounded-md shadow-md mt-8 border border-gray-300"
+      [formGroup]="employeeForm" (ngSubmit)="saveEmployee()">
+  <h2 class="text-2xl font-semibold mb-6 text-gray-800">Add New Employee</h2>
+
+  <!-- Username Input -->
+  <div class="mb-4">
+    <label for="username" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Username:</label>
+    <input type="text" id="username" formControlName="username"
+           class="form-input mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+           placeholder="Enter username" required/>
+    <div
+      *ngIf="employeeForm.get('username')?.hasError('required') && (employeeForm.get('username')?.touched || employeeForm.get('username')?.value)"
+      class="text-red-500 mt-2">Username is required.
+    </div>
+  </div>
+
+  <!-- First Name Input -->
+  <div class="mb-4">
+    <label for="firstName" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">First Name:</label>
+    <input type="text" id="firstName" formControlName="firstName"
+           class="form-input mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+           placeholder="Enter first name" required/>
+    <div
+      *ngIf="employeeForm.get('firstName')?.hasError('required') && (employeeForm.get('firstName')?.touched || employeeForm.get('firstName')?.value)"
+      class="text-red-500 mt-2">First Name is required.
+    </div>
+  </div>
+
+  <!-- Last Name Input -->
+  <div class="mb-4">
+    <label for="lastName" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Last Name:</label>
+    <input type="text" id="lastName" formControlName="lastName"
+           class="form-input mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+           placeholder="Enter last name" required/>
+    <div
+      *ngIf="employeeForm.get('lastName')?.hasError('required') && (employeeForm.get('lastName')?.touched || employeeForm.get('lastName')?.value)"
+      class="text-red-500 mt-2">Last Name is required.
+    </div>
+  </div>
+
+  <!-- Email Input -->
+  <div class="mb-4">
+    <label for="email" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Email:</label>
+    <input
+      type="email"
+      id="email"
+      formControlName="email"
+      class="form-input mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+      placeholder="Enter email"
+      required
+    />
+    <div
+      *ngIf="employeeForm.get('email')?.hasError('required') && (employeeForm.get('email')?.touched || employeeForm.get('email')?.value)"
+      class="text-red-500 mt-2">
+      Email is required.
+    </div>
+    <div
+      *ngIf="employeeForm.get('email')?.hasError('email') && (employeeForm.get('email')?.touched || employeeForm.get('email')?.value)"
+      class="text-red-500 mt-2">
+      Please enter a valid email address.
+    </div>
+  </div>
+
+  <!-- Birth Date Input (Datepicker) -->
+  <div class="mb-4">
+    <label for="birthDate" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Birth Date:</label>
+    <input type="date" id="birthDate" formControlName="birthDate" max="{{ today | date: 'yyyy-MM-dd' }}"
+           class="form-input mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+           required/>
+    <div
+      *ngIf="employeeForm.get('birthDate')?.hasError('required') && (employeeForm.get('birthDate')?.touched || employeeForm.get('birthDate')?.value)"
+      class="text-red-500 mt-2">Birth Date is required.
+    </div>
+  </div>
+
+  <!-- Basic Salary Input (Number only) -->
+  <!-- your.component.html -->
+  <div class="mb-4">
+    <label for="basicSalary" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Basic
+      Salary:</label>
+    <input
+      type="number"
+      id="basicSalary"
+      formControlName="basicSalary"
+      class="form-input mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+      placeholder="Enter basic salary"
+      required
+    />
+    <div
+      *ngIf="employeeForm.get('basicSalary')?.hasError('required') && (employeeForm.get('basicSalary')?.touched || employeeForm.get('basicSalary')?.value)"
+      class="text-red-500 mt-2">Basic Salary is required.
+    </div>
+    <div class="text-green-500 mt-2">{{ employeeForm.get('basicSalary')?.value | currencyFormat }}</div>
+  </div>
+
+
+  <!-- Status Input (Dropdown) -->
+  <div class="mb-4">
+    <label for="status" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Status:</label>
+    <select id="status" formControlName="status"
+            class="form-select mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            required>
+      <option value="">Please select status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+    <div
+      *ngIf="employeeForm.get('status')?.hasError('required') && (employeeForm.get('status')?.touched || employeeForm.get('status')?.value)"
+      class="text-red-500 mt-2">Status is required.
+    </div>
+  </div>
+
+  <!-- Group Input (Dropdown with 10 dummy options) -->
+  <div class="mb-4">
+    <label for="group" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Group:</label>
+    <select id="group" formControlName="group"
+            class="form-select mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            required>
+      <option value=""> Please select group</option>
+      <option *ngFor="let group of dummyGroups" [value]="group">{{ group }}</option>
+    </select>
+    <div
+      *ngIf="employeeForm.get('group')?.hasError('required') && (employeeForm.get('group')?.touched || employeeForm.get('group')?.value)"
+      class="text-red-500 mt-2">Group is required.
+    </div>
+  </div>
+
+  <!-- Description Input (Textarea) -->
+  <div class="mb-4">
+    <label for="description"
+           class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Description:</label>
+    <textarea id="description" formControlName="description"
+              class="form-textarea mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+              placeholder="Enter description" required></textarea>
+    <div
+      *ngIf="employeeForm.get('description')?.hasError('required') && (employeeForm.get('description')?.touched || employeeForm.get('description')?.value)"
+      class="text-red-500 mt-2">Description is required.
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <button type="submit"
+          class="bg-red-900 text-white px-4 py-2 rounded-md hover:bg-red-900 focus:outline-none focus:shadow-outline-blue mr-2"
+          (click)="onCancel()">Cancel
+  </button>
+  <button type="submit"
+          class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue ml-2">{{isAddingNewEmployee ? 'Add Employee' : 'Update Employee'}}</button>
+
+</form>

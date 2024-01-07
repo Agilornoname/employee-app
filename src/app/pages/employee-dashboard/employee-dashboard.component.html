@@ -1,13 +1,12 @@
-<app-navbar></app-navbar>
-
 <div class="container p-2 mx-auto sm:p-4 dark:text-gray-100">
   <h2 class="mb-4 text-2xl font-semibold leadi text-black">Employees</h2>
   <div class="overflow-x-auto">
     <!-- employee-list.component.html -->
+
     <!-- Filter Input -->
     <div class="mt-4">
       <label for="filter" class="block text-sm font-medium text-gray-600 dark:text-gray-400">
-        Filter by Name:
+        Filter by First Name And Last Name:
       </label>
       <div class="mt-1 relative rounded-md shadow-sm">
         <input
@@ -19,25 +18,50 @@
           placeholder="Enter name..."
         />
       </div>
+      <!-- Add Employee Button -->
+      <br>
+      <button
+        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+        (click)="addNewEmployee()"
+      >
+        Add Employee
+      </button>
     </div>
-<br>
+    <br>
+    <label for="filter" class="block text-lg font-medium text-gray-600 dark:text-red-400">
+      NB : Sorting only works in First Name And Last Name
+    </label>
+    <!--    <br>-->
     <table class="min-w-full text-xs">
       <thead class="dark:bg-gray-700">
       <tr class="text-left">
         <th class="p-3">Username</th>
-        <th class="p-3">First Name</th>
-        <th class="p-3">Last Name</th>
+        <th class="p-3" (click)="sortEmployees('firstName')">
+          First Name
+          <span *ngIf="sortColumn === 'firstName'" class="ml-1">
+        <span *ngIf="sortDirection === 'asc'">&#9650;</span>
+        <span *ngIf="sortDirection === 'desc'">&#9660;</span>
+      </span>
+        </th>
+        <th class="p-3" (click)="sortEmployees('lastName')">
+          Last Name
+          <span *ngIf="sortColumn === 'lastName'" class="ml-1">
+        <span *ngIf="sortDirection === 'asc'">&#9650;</span>
+        <span *ngIf="sortDirection === 'desc'">&#9660;</span>
+      </span>
+        </th>
         <th class="p-3">Email</th>
         <th class="p-3">Birth Date</th>
         <th class="p-3 text-right">Basic Salary</th>
         <th class="p-3">Status</th>
         <th class="p-3">Group</th>
         <th class="p-3">Description</th>
-        <th class="p-3 text-right">Action</th>
+        <th class="p-3 ">Action</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let employee of filteredEmployees" class="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
+      <tr *ngFor="let employee of filteredEmployees"
+          class="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
         <td class="p-3">
           <p>{{ employee.username }}</p>
         </td>
@@ -54,7 +78,7 @@
           <p>{{ employee.birthDate | date }}</p>
         </td>
         <td class="p-3 text-right">
-          <p>{{ employee.basicSalary | currency }}</p>
+          <p>{{ employee.basicSalary | currencyFormat }}</p>
         </td>
         <td class="p-3">
           <p>{{ employee.status }}</p>
@@ -65,11 +89,16 @@
         <td class="p-3">
           <p>{{ employee.description }}</p>
         </td>
-        <td class="p-3 text-right">
-          <a [routerLink]="['/employee', employee.username]" class="text-blue-500 hover:underline">
-          <span class="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-            <span>Edit</span>
-          </span>
+        <td class="p-3 ">
+          <a [routerLink]="['/employee-detail', employee.username]" class="text-yellow-500 hover:underline mr-2">
+    <span class="px-3 py-1 font-semibold rounded-md dark:bg-yellow-400 dark:text-gray-900">
+      <span>Edit</span>
+    </span>
+          </a>
+          <a (click)="deleteEmployee(employee.id)" class="text-red-500 hover:underline cursor-pointer ml-2">
+    <span class="px-3 py-1 font-semibold rounded-md dark:bg-red-400 dark:text-gray-900">
+      <span>Delete</span>
+    </span>
           </a>
         </td>
       </tr>

@@ -1,0 +1,9 @@
+/* styles.css or your global styles file */
+.active {
+  background-color: #4caf50; /* Set your desired background color */
+  color: white; /* Set your desired text color */
+
+}
+.disable-link {
+  pointer-events: none;
+}
